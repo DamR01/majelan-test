@@ -20,7 +20,8 @@ class Research extends React.Component {
         placeholder="Type Here..."
         onChangeText={this.updateSearch}
         value={search}
-        containerStyle={{ width: 250 }}
+        containerStyle={{ width: 350 }}
+        platform="ios"
       />
     );
   }
