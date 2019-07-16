@@ -48,6 +48,7 @@ class App extends React.Component {
           recipeRank={recipe.social_rank}
           recipeSourceUrl={recipe.source_url}
           recipeF2f={recipe.f2f_url}
+          recipeId={recipe.recipe_id}
         />
       );
     });

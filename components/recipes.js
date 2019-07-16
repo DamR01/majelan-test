@@ -1,5 +1,12 @@
 import React from 'react';
-import { Card, ListItem, Button, Icon, Badge } from 'react-native-elements';
+import {
+  Card,
+  ListItem,
+  Button,
+  Icon,
+  Badge,
+  ThemeConsumer
+} from 'react-native-elements';
 import {
   StyleSheet,
   Text,
@@ -13,11 +20,35 @@ class Recipes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false
+      modalVisible: false,
+      ingredients: []
     };
   }
 
   setModalVisible = () => {
+    fetch(
+      `https://www.food2fork.com/api/get?key=3fd8469f9d70db8ccf08e64175c3d061&q&rId=${
+        this.props.recipeId
+      }`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+    )
+      .then(response => {
+        return response.json();
+      })
+      .then(datarecipe => {
+        console.log('datarecipe', datarecipe);
+        this.setState({
+          ingredients: datarecipe.recipe.ingredients
+        });
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
     this.setState({ modalVisible: true });
   };
 
@@ -32,7 +63,8 @@ class Recipes extends React.Component {
       recipePublisher,
       recipeRank,
       recipeSourceUrl,
-      recipeF2f
+      recipeF2f,
+      recipeId
     } = this.props;
     return (
       <View>
@@ -88,16 +120,23 @@ class Recipes extends React.Component {
                   {recipeTitle}
                 </Text>
 
-                <View>
-                  <Text style={{ color: '#FFFFFF' }}>
-                    Recipe Rank #{recipeRank}
-                  </Text>
-
-                  <Text style={{ color: '#FFFFFF' }}>
-                    Recipe Publiser: {recipePublisher}
-                    Recipe Source Url: {recipeSourceUrl}
-                    Recipe F2F: {recipeF2f}
-                  </Text>
+                <View
+                  style={{ justifyContent: 'center', alignItems: 'center' }}
+                >
+                  <Text style={{ fontWeight: 'bold' }}> Recipe Rank #</Text>
+                  <Text> {recipeRank}</Text>
+                  <Text style={{ fontWeight: 'bold' }}>
+                    Recipe Publiser:
+                  </Text>{' '}
+                  <Text> {recipePublisher} </Text>
+                  <Text style={{ fontWeight: 'bold' }}>
+                    Recipe Source Url:
+                  </Text>{' '}
+                  <Text>{recipeSourceUrl}</Text>
+                  <Text style={{ fontWeight: 'bold' }}> Recipe ID: </Text>
+                  <Text> {recipeId}</Text>
+                  <Text style={{ fontWeight: 'bold' }}>Ingredients:</Text>{' '}
+                  <Text> {this.state.ingredients}</Text>
                 </View>
               </View>
             </ImageBackground>
