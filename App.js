@@ -34,6 +34,25 @@ class App extends React.Component {
         console.log('error', error);
       });
   }
+
+  searchNav = search => {
+    console.log('search', search);
+    fetch(`https://www.food2fork.com/api/search?key=${api}&q=${search}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(query => {
+        console.log('query', query);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  };
   render() {
     /*Here we map on the recipes state to send data to Recipes Component using props */
     let recipesList = this.state.recipesData.map((recipe, i) => {
@@ -54,7 +73,7 @@ class App extends React.Component {
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.safeArea}>
-          <Research />
+          <Research updateSearch={this.searchNav} />
           <ScrollView>{recipesList}</ScrollView>
         </SafeAreaView>
       </View>

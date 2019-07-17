@@ -11,6 +11,7 @@ class Research extends React.Component {
 
   updateSearch = search => {
     this.setState({ search });
+    this.props.updateSearch(search);
   };
 
   render() {
