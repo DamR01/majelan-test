@@ -15,6 +15,7 @@ import {
   Modal,
   ImageBackground
 } from 'react-native';
+import api from '../config';
 
 class Recipes extends React.Component {
   constructor(props) {
@@ -27,9 +28,7 @@ class Recipes extends React.Component {
 
   setModalVisible = () => {
     fetch(
-      `https://www.food2fork.com/api/get?key=3fd8469f9d70db8ccf08e64175c3d061&q&rId=${
-        this.props.recipeId
-      }`,
+      `https://www.food2fork.com/api/get?key=${api}&rId=${this.props.recipeId}`,
       {
         method: 'GET',
         headers: {
@@ -125,18 +124,17 @@ class Recipes extends React.Component {
                 >
                   <Text style={{ fontWeight: 'bold' }}> Recipe Rank #</Text>
                   <Text> {recipeRank}</Text>
-                  <Text style={{ fontWeight: 'bold' }}>
-                    Recipe Publiser:
-                  </Text>{' '}
+                  <Text style={{ fontWeight: 'bold' }}>Recipe Publiser:</Text>
                   <Text> {recipePublisher} </Text>
-                  <Text style={{ fontWeight: 'bold' }}>
-                    Recipe Source Url:
-                  </Text>{' '}
+                  <Text style={{ fontWeight: 'bold' }}>Recipe Source Url:</Text>
                   <Text>{recipeSourceUrl}</Text>
                   <Text style={{ fontWeight: 'bold' }}> Recipe ID: </Text>
                   <Text> {recipeId}</Text>
-                  <Text style={{ fontWeight: 'bold' }}>Ingredients:</Text>{' '}
-                  <Text> {this.state.ingredients}</Text>
+                  <Text style={{ fontWeight: 'bold' }}>Ingredients:</Text>
+                  <Text style={{ color: '#FFFFFF' }}>
+                    {' '}
+                    {this.state.ingredients}
+                  </Text>
                 </View>
               </View>
             </ImageBackground>

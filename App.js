@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import Research from './components/navbar';
 import Recipes from './components/recipes';
+import api from './config';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,15 +15,12 @@ class App extends React.Component {
   /*ComponentDidMount is used to fetch Food2Fork API to get all recipies.
   We send all data with props to Recipies Component */
   async componentDidMount() {
-    await fetch(
-      `https://www.food2fork.com/api/search?key=3fd8469f9d70db8ccf08e64175c3d061&q`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+    await fetch(`https://www.food2fork.com/api/search?key=${api}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
-    )
+    })
       .then(response => {
         return response.json();
       })
