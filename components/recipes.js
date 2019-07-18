@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  ListItem,
-  Button,
-  Icon,
-  Badge,
-  ThemeConsumer
-} from 'react-native-elements';
+import { Card, Button, Icon } from 'react-native-elements';
 import {
   StyleSheet,
   Text,
@@ -26,6 +19,8 @@ class Recipes extends React.Component {
     };
   }
 
+  /*This function is trigger when user click on more details. */
+  /* It opens a model to get more information and ingredient for the selected recipe from the API */
   setModalVisible = () => {
     fetch(
       `https://www.food2fork.com/api/get?key=${api}&rId=${this.props.recipeId}`,
@@ -40,7 +35,6 @@ class Recipes extends React.Component {
         return response.json();
       })
       .then(datarecipe => {
-        console.log('datarecipe', datarecipe);
         this.setState({
           ingredients: datarecipe.recipe.ingredients
         });
@@ -62,7 +56,6 @@ class Recipes extends React.Component {
       recipePublisher,
       recipeRank,
       recipeSourceUrl,
-      recipeF2f,
       recipeId
     } = this.props;
     return (
@@ -98,44 +91,34 @@ class Recipes extends React.Component {
             transparent={false}
             visible={this.state.modalVisible}
           >
-            <ImageBackground style={{ flex: 1 }} source={{ uri: recipeUrl }}>
-              <View style={{ flex: 1, alignItems: 'center', marginTop: 40 }}>
+            <ImageBackground
+              style={{ flex: 1, justifyContent: 'center' }}
+              source={{ uri: recipeUrl }}
+            >
+              <View style={styles.backgroundView}>
+                <Text style={styles.recipeTitle}>{recipeTitle}</Text>
+
+                <View style={styles.recipeDetails}>
+                  <Text style={styles.recipeItem}> Recipe Rank #</Text>
+                  <Text> {recipeRank}</Text>
+                  <Text style={styles.recipeItem}>Recipe Publiser:</Text>
+                  <Text> {recipePublisher} </Text>
+                  <Text style={styles.recipeItem}>Recipe Source Url:</Text>
+                  <Text>{recipeSourceUrl}</Text>
+                  <Text style={styles.recipeItem}> Recipe ID: </Text>
+                  <Text> {recipeId}</Text>
+                  <Text style={styles.recipeItem}>Ingredients:</Text>
+                  <Text style={styles.listIngredients}>
+                    {this.state.ingredients}
+                  </Text>
+                </View>
                 <Button
                   title="Go back"
-                  style={{ width: 200 }}
+                  style={{ width: 200, marginBottom: 5, marginTop: 5 }}
                   backgroundColor="#022F40"
                   color="#FFFFFF"
                   onPress={this.setModalInvisible}
                 />
-
-                <Text
-                  style={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                    marginTop: 5,
-                    fontSize: 17
-                  }}
-                >
-                  {recipeTitle}
-                </Text>
-
-                <View
-                  style={{ justifyContent: 'center', alignItems: 'center' }}
-                >
-                  <Text style={{ fontWeight: 'bold' }}> Recipe Rank #</Text>
-                  <Text> {recipeRank}</Text>
-                  <Text style={{ fontWeight: 'bold' }}>Recipe Publiser:</Text>
-                  <Text> {recipePublisher} </Text>
-                  <Text style={{ fontWeight: 'bold' }}>Recipe Source Url:</Text>
-                  <Text>{recipeSourceUrl}</Text>
-                  <Text style={{ fontWeight: 'bold' }}> Recipe ID: </Text>
-                  <Text> {recipeId}</Text>
-                  <Text style={{ fontWeight: 'bold' }}>Ingredients:</Text>
-                  <Text style={{ color: '#FFFFFF' }}>
-                    {' '}
-                    {this.state.ingredients}
-                  </Text>
-                </View>
               </View>
             </ImageBackground>
           </Modal>
@@ -144,5 +127,33 @@ class Recipes extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  recipeItem: {
+    fontWeight: 'bold',
+    color: '#000000'
+  },
+  listIngredients: {
+    color: '#000000'
+  },
+  recipeDetails: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  recipeTitle: {
+    color: '#000000',
+    fontWeight: 'bold',
+    marginTop: 5,
+    fontSize: 17
+  },
+  backgroundView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5
+  }
+});
 
 export default Recipes;
